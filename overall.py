@@ -109,3 +109,59 @@ class tanks:
                     self.playervx = -self.playervx
                 if self.player_x+tank.player_size  <window_width:
                     self.player_x -= self.playervx
+        elif m<0 and math.cos(math.radians(self.tankangle))>0:
+            if self.down_down:
+                if self.playervy > 0:
+                    self.playervy = math.cos(math.radians(self.tankangle)) *self.move_speed
+                    self.playervy = -self.playervy
+                if self.player_y+tank.player_size <window_height:
+                    self.player_y -= self.playervy
+                if self.playervx<0:
+                    self.playervx = math.sin(math.radians(self.tankangle)) *self.move_speed
+                    self.playervx = -self.playervx
+                if self.player_x + self.player_size< 400:
+                    self.player_x += self.playervx
+            if self.up_down:
+                if self.playervy > 0:
+                    self.playervy = math.cos(math.radians(self.tankangle)) *self.move_speed
+                    self.playervy = -self.playervy
+                if self.player_y>0:
+                    self.player_y += self.playervy
+                if self.playervx > 0:
+                    self.playervx = math.sin(math.radians(self.tankangle)) *self.move_speed
+                    self.playervx = -self.playervx
+                if self.player_x  >0:
+                    self.player_x += self.playervx
+
+
+
+
+
+
+
+
+tank = tanks(100,100,angle=0)
+surface = pygame.display.set_mode((window_width, window_height))
+while True:
+    surface.fill((255,255,255))
+    #pygame.draw.rect(surface, (255, 0, 0),(tank.player_x,tank.player_y,10,10))
+    pygame.draw.rect(surface, (255, 0, 0),(tank.player_x,tank.player_y,tank.player_size,tank.player_size))
+    for event in game_events.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                tank.up_down = True
+            if event.key == pygame.K_DOWN:
+                tank.down_down = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_UP:
+                tank.up_down = False
+                tank.playervy = math.cos(math.radians(tank.tankangle)) *tank.move_speed
+                tank.playervx=math.sin(math.radians(tank.tankangle)) *tank.move_speed
+            if event.key == pygame.K_DOWN:
+                tank.down_down = False
+                tank.playervy = math.cos(math.radians(tank.tankangle)) * tank.move_speed
+                tank.playervx = math.sin(math.radians(tank.tankangle)) * tank.move_speed
+        if event.type == game_locals.QUIT:
+            sys.exit()
+    tank.move()
+    pygame.display.update()
