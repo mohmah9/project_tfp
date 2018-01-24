@@ -51,3 +51,61 @@ class tanks:
                     self.playervx = -self.playervx
                 if self.player_x + self.player_size< window_width:
                     self.player_x += self.playervx
+            if self.down_down:
+                if self.playervy < 0:
+                    self.playervy = math.cos(math.radians(self.tankangle)) *self.move_speed
+                    self.playervy = -self.playervy
+                if self.player_y + self.player_size < window_height:
+                    self.player_y += self.playervy
+                if self.playervx > 0:
+                    self.playervx = math.sin(math.radians(self.tankangle)) *self.move_speed
+                    self.playervx = -self.playervx
+                if self.player_x  >0:
+                    self.player_x += self.playervx
+
+        elif m>0 and math.cos(math.radians(self.tankangle))<0:
+            if self.up_down:
+                if self.playervy > 0:
+                    self.playervy = math.cos(math.radians(self.tankangle)) *self.move_speed
+                    self.playervy = -self.playervy
+                if self.player_y+tank.player_size <window_height:
+                    self.player_y -= self.playervy
+                if self.playervx<0:
+                    self.playervx = math.sin(math.radians(self.tankangle)) *self.move_speed
+                    self.playervx = -self.playervx
+                if self.player_x>0:
+                    self.player_x -= self.playervx
+            if self.down_down:
+                if self.playervy < 0:
+                    self.playervy = math.cos(math.radians(self.tankangle)) *self.move_speed
+                    self.playervy = +self.playervy
+                if self.player_y>0:
+                    self.player_y += self.playervy
+                if self.playervx > 0:
+                    self.playervx = math.sin(math.radians(self.tankangle)) *self.move_speed
+                    self.playervx = +self.playervx
+                if self.player_x+tank.player_size  <window_width:
+                    self.player_x -= self.playervx
+        elif m<0 and math.cos(math.radians(self.tankangle))<0:
+            if self.down_down:
+                if self.playervy > 0:
+                    self.playervy = math.cos(math.radians(self.tankangle)) *self.move_speed
+                    self.playervy = -self.playervy
+                if self.player_y > 0:
+                    self.player_y += self.playervy
+                if self.playervx<0:
+                    self.playervx = math.sin(math.radians(self.tankangle)) *self.move_speed
+                    self.playervx = -self.playervx
+                if self.player_x>0:
+                    self.player_x -= self.playervx
+            if self.up_down:
+                if self.playervy < 0:
+                    self.playervy = math.cos(math.radians(self.tankangle)) *self.move_speed
+                    self.playervy = -self.playervy
+                if self.player_y + self.player_size < window_height:
+                    self.player_y += self.playervy
+                if self.playervx > 0:
+                    self.playervx = math.sin(math.radians(self.tankangle)) *self.move_speed
+                    self.playervx = -self.playervx
+                if self.player_x+tank.player_size  <window_width:
+                    self.player_x -= self.playervx
