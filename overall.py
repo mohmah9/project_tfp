@@ -186,3 +186,86 @@ def barkhord_be_kodoom_tank(bullet,tank,tank2):
         bullet.bull_x, bullet.bull_y = 0, 0
 def two_player():
     tank = tanks(700, 600, 0,35)
+    tank2 = tanks(800, 700, 0, 35)
+    tank_list = [tank, tank2]
+    while True:
+        surface.blit(board_image, (screensize[0] / 2 - 594, screensize[1] / 2 - 400))
+        for event in game_events.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    tank.up_down = True
+                if event.key == pygame.K_DOWN:
+                    tank.down_down = True
+                if event.key == pygame.K_LEFT:
+                    tank.left_down = True
+                if event.key == pygame.K_RIGHT:
+                    tank.right_down = True
+                if event.key == pygame.K_m:
+                    tank.firing()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    tank.left_down = False
+                if event.key == pygame.K_RIGHT:
+                    tank.right_down = False
+                if event.key == pygame.K_UP:
+                    tank.up_down = False
+                    tank.playervy = math.cos(math.radians(tank.tankangle)) * tank.move_speed
+                    tank.playervx = math.sin(math.radians(tank.tankangle)) * tank.move_speed
+                if event.key == pygame.K_DOWN:
+                    tank.down_down = False
+                    tank.playervy = math.cos(math.radians(tank.tankangle)) * tank.move_speed
+                    tank.playervx = math.sin(math.radians(tank.tankangle)) * tank.move_speed
+            if event.type == game_locals.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    tank2.up_down = True
+                if event.key == pygame.K_d:
+                    tank2.down_down = True
+                if event.key == pygame.K_s:
+                    tank2.left_down = True
+                if event.key == pygame.K_f:
+                    tank2.right_down = True
+                if event.key == pygame.K_q:
+                    tank2.firing()
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_s:
+                    tank2.left_down = False
+                if event.key == pygame.K_f:
+                    tank2.right_down = False
+                if event.key == pygame.K_e:
+                    tank2.up_down = False
+                    tank2.playervy = math.cos(math.radians(tank2.tankangle)) * tank2.move_speed
+                    tank2.playervx = math.sin(math.radians(tank2.tankangle)) * tank2.move_speed
+                if event.key == pygame.K_d:
+                    tank2.down_down = False
+                    tank2.playervy = math.cos(math.radians(tank2.tankangle)) * tank2.move_speed
+                    tank2.playervx = math.sin(math.radians(tank2.tankangle)) * tank2.move_speed
+        for b in tank.bullets:
+            barkhord_be_kodoom_tank(b, tank, tank2)
+            if time.time() - b.born_time > 15:
+                b.bull_status = 'dead'
+                b.bull_x, b.bull_y = 0, 0
+            if b.bull_status == 'Alive':
+                b.draw()
+        for b in tank2.bullets:
+            barkhord_be_kodoom_tank(b, tank, tank2)
+            if time.time() - b.born_time > 15:
+                b.bull_status = 'dead'
+                b.bull_x, b.bull_y = 0, 0
+            if b.bull_status == 'Alive':
+                b.draw()
+        if tank.status == 'alive':
+            surface.blit(rot_center(tank_image, -tank.tankangle), (tank.player_x, tank.player_y))
+        if tank2.status == 'alive':
+            surface.blit(rot_center(tank2_image, -tank2.tankangle), (tank2.player_x, tank2.player_y))
+        tank.move()
+        tank2.move()
+        pygame.display.flip()
+
+
+def tank_rotation(tan):
+    pass
+
+
+intro()
