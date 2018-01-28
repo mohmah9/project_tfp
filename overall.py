@@ -1,4 +1,4 @@
-import pygame , time , math , sys
+import pygame , time , math , sys,ctypes
 import pygame.event as game_events
 import pygame.locals as game_locals
 pygame.init()
