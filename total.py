@@ -203,6 +203,7 @@ class bullet():
         tank_pos_1 = (int(center[0] + self.boss.playervx + self.boss.width/2 * math.cos(math.radians(self.boss.tankangle))),int(center[1] + self.boss.playervy + self.boss.width/2 * math.sin(math.radians(self.boss.tankangle))))
         self.bull_x = tank_pos_1[0]
         self.bull_y = tank_pos_1[1]
+<<<<<<< HEAD
         self.bullet_speed = 4
         self.bull_status = 'Alive'
         self.m_down=False
@@ -408,3 +409,6 @@ def two_player():
                 if event.key == pygame.K_q and tank2.status=='alive':
                     tank2.firing()
                     bullet_counter += 1
+=======
+        
+>>>>>>> origin/master
