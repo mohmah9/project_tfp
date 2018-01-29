@@ -203,7 +203,6 @@ class bullet():
         tank_pos_1 = (int(center[0] + self.boss.playervx + self.boss.width/2 * math.cos(math.radians(self.boss.tankangle))),int(center[1] + self.boss.playervy + self.boss.width/2 * math.sin(math.radians(self.boss.tankangle))))
         self.bull_x = tank_pos_1[0]
         self.bull_y = tank_pos_1[1]
-<<<<<<< HEAD
         self.bullet_speed = 4
         self.bull_status = 'Alive'
         self.m_down=False
@@ -409,6 +408,208 @@ def two_player():
                 if event.key == pygame.K_q and tank2.status=='alive':
                     tank2.firing()
                     bullet_counter += 1
-=======
-        
->>>>>>> origin/master
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_s:
+                    tank2.left_down = False
+                if event.key == pygame.K_f:
+                    tank2.right_down = False
+                if event.key == pygame.K_e:
+                    tank2.up_down = False
+                    tank2.playervy = math.cos(math.radians(tank2.tankangle)) * tank2.move_speed
+                    tank2.playervx = math.sin(math.radians(tank2.tankangle)) * tank2.move_speed
+                if event.key == pygame.K_d:
+                    tank2.down_down = False
+                    tank2.playervy = math.cos(math.radians(tank2.tankangle)) * tank2.move_speed
+                    tank2.playervx = math.sin(math.radians(tank2.tankangle)) * tank2.move_speed
+
+
+        for b in tank.bullets:
+            barkhord_be_kodoom_tank(b,tank,tank2)
+            if time.time() - b.born_time > 12:
+                b.bull_status = 'dead'
+                bullet_counter -= 1
+                b.bull_x, b.bull_y = 0, 0
+            if b.bull_status == 'Alive':
+                b.draw()
+        for b in tank2.bullets:
+            barkhord_be_kodoom_tank(b,tank,tank2)
+            if time.time() - b.born_time > 12:
+                b.bull_status = 'dead'
+                bullet_counter -= 1
+                b.bull_x, b.bull_y = 0, 0
+            if b.bull_status == 'Alive':
+                b.draw()
+
+        if tank.status == 'alive':
+            surface.blit(rot_center(tank_image, -tank.tankangle), (tank.player_x, tank.player_y))
+        if tank2.status == 'alive':
+            surface.blit(rot_center(tank2_image, -tank2.tankangle), (tank2.player_x, tank2.player_y))
+
+
+        tank.move()
+        tank2.move()
+        if len(tank_list) == 1 and bullet_counter <=0:
+            restart_two_player(tank_list,tank,tank2)
+        if len(tank_list) ==0:
+            two_player()
+
+        pygame.display.flip()
+
+
+def restart_two_player(tank_list,tank,tank2):
+    global counter_tank
+    global counter_tank2
+    global counter_tank3
+
+    if tank_list[0] == tank:
+        counter_tank+=1
+    elif tank_list[0] == tank2:
+        counter_tank2+=1
+    two_player()
+def restart_three_player(tank_list,tank,tank2,tank3):
+    global counter_tank
+    global counter_tank2
+    global counter_tank3
+    if tank_list[0] == tank:
+        counter_tank+=1
+    elif tank_list[0] == tank2:
+        counter_tank2+=1
+    elif tank_list[0] == tank3:
+        counter_tank3+=1
+    three_player()
+def three_player():
+    global tank_list
+    tank = tanks(680, 680, 0, 35)
+    tank2 = tanks(870, 725, 0, 35)
+    tank3 = tanks(1300,300,0,35)
+
+    tank_list = [tank,tank2,tank3]
+    pygame.joystick.init()
+    joy1 = pygame.joystick.Joystick(0)
+    joy1.init()
+    while True:
+        global bullet_counter
+
+        surface.blit(board_image_three, (screensize[0] / 2 - 594, screensize[1] / 2 - 400))
+        display_score(counter_tank2, counter_tank3, counter_tank, 1000, 900)
+        for event in game_events.get():
+            if event.type == pygame.JOYHATMOTION:
+                direction = joy1.get_hat(0)
+                if direction[0] == 1:
+                    tank3.right_down =True
+                if direction[0] == -1:
+                    tank3.left_down = True
+                if direction[1] == 1:
+                    tank3.up_down =True
+                if direction[1] == -1:
+                    tank3.down_down = True
+                direction = joy1.get_hat(0)
+                if direction[0] == 0:
+                    tank3.right_down =False
+                if direction[0] == 0:
+                    tank3.left_down = False
+                if direction[1] == 0:
+                    tank3.up_down =False
+                if direction[1] == 0:
+                    tank3.down_down = False
+            if joy1.get_button(2) == 1 and tank3.status == 'alive':
+                tank3.firing()
+                bullet_counter += 1
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    quit()
+                if event.key == pygame.K_UP:
+                    tank.up_down = True
+                if event.key == pygame.K_DOWN:
+                    tank.down_down = True
+                if event.key == pygame.K_LEFT:
+                    tank.left_down = True
+                if event.key == pygame.K_RIGHT:
+                    tank.right_down = True
+                if event.key == pygame.K_m and tank.status=='alive':
+                    tank.firing()
+                    bullet_counter += 1
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT:
+                    tank.left_down = False
+                if event.key == pygame.K_RIGHT:
+                    tank.right_down = False
+                if event.key == pygame.K_UP:
+                    tank.up_down = False
+                    tank.playervy = math.cos(math.radians(tank.tankangle)) * tank.move_speed
+                    tank.playervx = math.sin(math.radians(tank.tankangle)) * tank.move_speed
+                if event.key == pygame.K_DOWN:
+                    tank.down_down = False
+                    tank.playervy = math.cos(math.radians(tank.tankangle)) * tank.move_speed
+                    tank.playervx = math.sin(math.radians(tank.tankangle)) * tank.move_speed
+            if event.type == game_locals.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_e:
+                    tank2.up_down = True
+                if event.key == pygame.K_d:
+                    tank2.down_down = True
+                if event.key == pygame.K_s:
+                    tank2.left_down = True
+                if event.key == pygame.K_f:
+                    tank2.right_down = True
+                if event.key == pygame.K_q and tank2.status=='alive':
+                    tank2.firing()
+                    bullet_counter += 1
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_s:
+                    tank2.left_down = False
+                if event.key == pygame.K_f:
+                    tank2.right_down = False
+                if event.key == pygame.K_e:
+                    tank2.up_down = False
+                    tank2.playervy = math.cos(math.radians(tank2.tankangle)) * tank2.move_speed
+                    tank2.playervx = math.sin(math.radians(tank2.tankangle)) * tank2.move_speed
+                if event.key == pygame.K_d:
+                    tank2.down_down = False
+                    tank2.playervy = math.cos(math.radians(tank2.tankangle)) * tank2.move_speed
+                    tank2.playervx = math.sin(math.radians(tank2.tankangle)) * tank2.move_speed
+
+        for b in tank.bullets:
+            barkhord_be_kodoom_tank(b, tank, tank2,tank3)
+            if time.time() - b.born_time > 12:
+                b.bull_status = 'dead'
+                bullet_counter -= 1
+                b.bull_x, b.bull_y = 0, 0
+            if b.bull_status == 'Alive':
+                b.draw()
+        for b in tank2.bullets:
+            barkhord_be_kodoom_tank(b, tank, tank2,tank3)
+            if time.time() - b.born_time > 12:
+                b.bull_status = 'dead'
+                bullet_counter -= 1
+                b.bull_x, b.bull_y = 0, 0
+            if b.bull_status == 'Alive':
+                b.draw()
+        for b in tank3.bullets:
+            barkhord_be_kodoom_tank(b, tank, tank2,tank3)
+            if time.time() - b.born_time > 12:
+                b.bull_status = 'dead'
+                bullet_counter -= 1
+                b.bull_x, b.bull_y = 0, 0
+            if b.bull_status == 'Alive':
+                b.draw()
+        if tank.status == 'alive':
+            surface.blit(rot_center(tank_image, -tank.tankangle), (tank.player_x, tank.player_y))
+        if tank2.status == 'alive':
+            surface.blit(rot_center(tank2_image, -tank2.tankangle), (tank2.player_x, tank2.player_y))
+        if tank3.status == 'alive':
+            surface.blit(rot_center(tank3_image, -tank3.tankangle), (tank3.player_x, tank3.player_y))
+        tank.move()
+        tank2.move()
+        tank3.move()
+        if len(tank_list) == 1 and bullet_counter <=0:
+            restart_three_player(tank_list,tank,tank2,tank3)
+        if len(tank_list) ==0:
+            three_player()
+        pygame.display.flip()
+intro()
